@@ -1,21 +1,21 @@
--- Table: public.order_detailes
+-- Table: public.order_details
 
--- DROP TABLE IF EXISTS public.order_detailes;
+-- DROP TABLE IF EXISTS public.order_details;
 
-CREATE TABLE IF NOT EXISTS public.order_detailes
+CREATE TABLE IF NOT EXISTS public.order_details
 (
     "orderID" integer NOT NULL,
-    "productID" integer,
-    "unitPrice" double precision,
-    quantity integer,
+    "productID" integer NOT NULL,
+    "unitPrice" double precision NOT NULL,
+    quantity integer NOT NULL,
     discount double precision,
-    CONSTRAINT order_id_pk FOREIGN KEY ("orderID")
-        REFERENCES public.orders ("orderID") MATCH SIMPLE
+    CONSTRAINT product_id_fk FOREIGN KEY ("productID")
+        REFERENCES public.products ("productID") MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public.order_detailes
+ALTER TABLE IF EXISTS public.order_details
     OWNER to postgres;
