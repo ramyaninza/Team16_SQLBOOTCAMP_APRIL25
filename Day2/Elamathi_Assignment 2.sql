@@ -57,9 +57,9 @@
 	SELECT * FROM customers
 	WHERE country = 'France' OR country = 'Spain';
 
-	--c. Retrieve all orders placed in 1997 and either have freight greater than 50 or the shipped date available (i.e., non-NULL)
+	--c. Retrieve all orders placed in 2014 and either have freight greater than 50 or the shipped date available (i.e., non-NULL)
 	SELECT * FROM orders
-	WHERE EXTRACT(YEAR FROM orderdate) = 1997 AND (freight > 50 OR shippeddate IS NOT NULL);
+	WHERE EXTRACT(YEAR FROM orderdate) = 2014 AND (freight > 50 OR shippeddate IS NOT NULL);
 
 --...................................................................................................................................................................
 -- 4. Filtering
