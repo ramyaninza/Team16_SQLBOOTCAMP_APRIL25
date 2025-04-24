@@ -1,0 +1,3 @@
+SELECT *
+FROM orders1
+WHERE orderdate BETWEEN '2013-01-01' AND '2013-12-31';
