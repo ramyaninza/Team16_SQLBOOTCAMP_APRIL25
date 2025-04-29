@@ -15,20 +15,6 @@ GROUP BY orderyear,quarter
 Display, ship region, no of orders in each region, min and max freight cost
  Filter regions where no of orders >= 5*/
 
-SELECT 
-    ship_region,
-    COUNT(order_id) AS order_count,
-    MIN(freight) AS min_freight_cost,
-    MAX(freight) AS max_freight_cost
-	
-FROM 
-    orders
-GROUP BY 
-    ship_region
-HAVING 
-    COUNT(order_id) >= 5 AND ship_region IS NOT NULL
-ORDER BY 
-    order_count DESC;
 
 
 /*Day 5, 3. Get all title designations across employees and customers ( Try UNION & UNION ALL)*/
@@ -50,15 +36,6 @@ FROM customers
 
 SELECT * FROM products
 
-SELECT categoryid FROM products
-WHERE units_in_stock > 0
-
-INTERSECT
-
-SELECT categoryid FROM products 
-WHERE discontinued = 1;
-
-SELECT * FROM products
 
 
 /*Day 5,5.Find orders that have no discounted items (Display the  order_id, EXCEPT)*/
