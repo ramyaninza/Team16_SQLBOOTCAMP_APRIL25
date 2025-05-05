@@ -1,7 +1,7 @@
---Day 9,1.1.Create AFTER UPDATE trigger to track product price changes
+/*Day 9,1.1.Create AFTER UPDATE trigger to track product price changes
 
  
-·       Create product_price_audit table with below columns:
+ Create product_price_audit table with below columns:
 	audit_id SERIAL PRIMARY KEY,
     product_id INT,
     product_name VARCHAR(40),
@@ -27,7 +27,7 @@
 ·       Create a row level trigger for below event:
           	AFTER UPDATE OF unit_price ON products
  
-·        Test the trigger by updating the product price by 10% to any one product_id.
+·        Test the trigger by updating the product price by 10% to any one product_id.*/
 
 CREATE TABLE product_price_audit (
     audit_id SERIAL PRIMARY KEY,
@@ -38,7 +38,8 @@ CREATE TABLE product_price_audit (
     change_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     user_name VARCHAR(50) DEFAULT CURRENT_USER
 );
-CREATE OR REPLACE FUNCTION log_price_change()
+
+CREATE OR REPLACE FUNCTION price_change_log()
 RETURNS TRIGGER AS $$
 BEGIN
     INSERT INTO product_price_audit (
@@ -55,12 +56,13 @@ BEGIN
     );
     RETURN NEW;
 END;
+
 $$ LANGUAGE plpgsql;
 CREATE TRIGGER trg_product_price_change
 AFTER UPDATE OF unit_price ON products
 FOR EACH ROW
 WHEN (OLD.unit_price IS DISTINCT FROM NEW.unit_price)
-EXECUTE FUNCTION log_price_change();
+EXECUTE FUNCTION price_change_log();
 
 
 -- Check existing price
