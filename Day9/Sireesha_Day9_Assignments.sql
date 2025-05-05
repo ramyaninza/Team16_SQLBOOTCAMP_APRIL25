@@ -119,7 +119,7 @@ END;
 
 $$;
 
-
+/*step4 verify the output*/
 SELECT * FROM employee_tasks WHERE employee_id = 1;
 
 
