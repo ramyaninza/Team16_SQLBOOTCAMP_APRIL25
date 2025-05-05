@@ -77,10 +77,50 @@ WHERE product_id = 1;
 SELECT * FROM product_price_audit;
 
 
+/* 2  Create stored procedure  using IN and INOUT parameters to assign tasks to employees */
+
+CREATE OR REPLACE PROCEDURE sp_assign_tasks(
+    IN p_employee_id INT,
+    IN p_task_name VARCHAR(50),
+    INOUT p_task_count INT DEFAULT 0
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    -- Step 1: Create the table if it doesn't exist
+    CREATE TABLE IF NOT EXISTS employee_tasks (
+        task_id SERIAL PRIMARY KEY,
+        employee_id INT,
+        task_name VARCHAR(50),
+        assigned_date DATE DEFAULT CURRENT_DATE
+    );
+
+    -- Step 2: Insert the new task
+    INSERT INTO employee_tasks (employee_id, task_name)
+    VALUES (p_employee_id, p_task_name);
+
+    -- Step 3: Count total tasks for the employee
+    SELECT COUNT(*) INTO p_task_count
+    FROM employee_tasks
+    WHERE employee_id = p_employee_id;
+
+    -- Step 4: Raise a notice
+    RAISE NOTICE 'Task "%" assigned to employee %. Total tasks: %',
+        p_task_name, p_employee_id, p_task_count;
+END;
+$$;
+
+DO $$
+DECLARE
+    task_total INT := 0;
+BEGIN
+    CALL sp_assign_tasks(1, 'Review Reports', task_total);
+END;
+
+$$;
 
 
-
-
+SELECT * FROM employee_tasks WHERE employee_id = 1;
 
 
 
